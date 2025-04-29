@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+
+<!--CSS Portion-->
+    <style>
+        body { 
+            font-family:Georgia, 'Times New Roman', Times, serif; 
+            font-weight: bold;
+            text-align: center; 
+            margin: 10%; 
+            background-color: #DDDDDD 
+        }
+        #time { 
+            font-size: 5em;
+            font-weight: bold; 
+            margin: 10%;
+        }
+        button { 
+            padding: 10px; 
+            margin: 5px; 
+            color:#DDDDDD;
+            background-color: rgb(63, 63, 63); 
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 2em;
+            border-style:outset; 
+            border-width: 5px;
+            border-radius: 18%;
+         }
+    </style>
+</head>
+
+<body>
+    <h1 style = "font-size: 4em; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Don't Stop Stopwatch</h1>
+    <div id="time">00:00:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+
+<!--Javascript portion (Syntax under the script changes to Javascript)-->
+    <script>
+        let timer;
+        let seconds = 0, minutes = 0, hours = 0;
+
+        //Time formatting - Putting a 0 before any 1 digit numbers
+        function updateDisplay() {
+            document.getElementById("time").innerText =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        //Run the stop watch- Cheeck if timer is already started. If it has not started, it starts it and increases the time by 1 second every second
+        function startTimer() {
+            if (!timer) {
+                timer = setInterval(() => {
+                    seconds++;
+                    //Updates the seconds into minutes and hours where necessary
+                    if (seconds === 60) { seconds = 0; minutes++; } 
+                    if (minutes === 60) { minutes = 0; hours++; }
+                    updateDisplay();
+                }, 1000);
+            }
+        }
+
+        //Pause the stopwatch and reset the timer
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        //Reset time values
+        function resetTimer() {
+            stopTimer();
+            seconds = 0; minutes = 0; hours = 0;
+            updateDisplay();
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
